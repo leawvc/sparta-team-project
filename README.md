@@ -1,4 +1,4 @@
-<img src="https://img.shields.io/badge/JavaScript-FF7800?style=flat-square&logo=firebase&logoColor=white"/><img src="https://img.shields.io/badge/MongoDB-007396?style=flat-square&logo=firebase&logoColor=white"/><img src="https://img.shields.io/badge/OpenAI-412991?style=flat-square&logo=firebase&logoColor=white"/><img src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=firebase&logoColor=white"/>
+<img src="https://img.shields.io/badge/JavaScript-FF7800?style=flat-square&logo=firebase&logoColor=white"/> <img src="https://img.shields.io/badge/MongoDB-007396?style=flat-square&logo=firebase&logoColor=white"/> <img src="https://img.shields.io/badge/OpenAI-412991?style=flat-square&logo=firebase&logoColor=white"/> <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=firebase&logoColor=white"/>
 
 # sparta-team-project
 
