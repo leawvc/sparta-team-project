@@ -7,4 +7,4 @@
 - 팀원 : 강문정
 - 팀원 : 윤상진
 
-![mongodb](https://user-images.githubusercontent.com/43610417/163961948-2f04ea25-2a7b-4c2c-91c4-33384bc68614.svg)
+#### ![mongodb](https://user-images.githubusercontent.com/43610417/163961948-2f04ea25-2a7b-4c2c-91c4-33384bc68614.svg)
