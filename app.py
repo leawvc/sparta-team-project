@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 
 headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
-data = requests.get('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=%EC%82%BC%EA%B2%B9%EC%82%B4+%EB%A7%9B%EC%A7%91',headers=headers)
+data = requests.get('https://www.diningcode.com/isearch.php?query=%EC%82%AC%ED%95%98%EA%B5%AC+%ED%9A%8C',headers=headers)
 
 soup = BeautifulSoup(data.text, 'html.parser')
 
