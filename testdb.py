@@ -75,9 +75,6 @@ else:
             foodlist.append(db.food.find_one({'name': i}))
             data = sorted(foodlist, key=(lambda x: x['like']))[::-1][0:5]
 
-
-
-
 for i in data:
     img = i['img']
     name = i['name']

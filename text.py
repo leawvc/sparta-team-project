@@ -9,6 +9,8 @@ soup = BeautifulSoup(data.text, 'html.parser')
 
 foods = soup.select('#div_normal > ul > li')
 
+result = []
+
 for food in foods:
     a_tag = food.select_one('a > span.btxt')
     if a_tag is not None:
@@ -17,4 +19,7 @@ for food in foods:
         kind = food.select_one('a > span.stxt').text
         ip = food.select_one('a > span.ctxt').text
 
-        print(image,title,kind,ip)
+        result.append({'image':image, 'title':title.strip(), 'kind': kind, 'ip':ip})
+
+
+print(result)

@@ -1,4 +1,5 @@
 import json
+import random
 import urllib
 
 from flask import Flask, render_template, jsonify, request
@@ -32,17 +33,54 @@ def home():
 #     return jsonify({'msg': '이 요청은 POST!'})
 
 
-@app.route('/food', methods=['GET'])
+@app.route('/food/ranking', methods=['GET'])
 def read_ranking():
+    temper_receive = float(request.args['temper_give'])
+    cloud_receive = float(request.args['cloud_give'])
+    result = ranking(temper_receive, cloud_receive)
 
-    result = ranking(60, 16)
     return jsonify({'ranking': result})
 
 
-def ranking(weather, temper):
+
+
+@app.route('/food/location', methods=['GET'])
+def get_weather():
+    x_receive = request.args['x_give']
+    y_receive = request.args['y_give']
+    api = "ad941787e755149ec3b3f81c65223d85"
+
+    lon = float(x_receive)
+    lat = float(y_receive)
+
+    print(lat, lon)
+    units = "metric"
+    # api에서 가져온 json을 저장하는 source
+    source = urllib.request.urlopen(
+        'http://api.openweathermap.org/data/2.5/weather?lat=' + str(lat) + '&lon=' + str(
+            lon) + '&appid=' + api + '&units=' + units).read()
+    # json을 딕셔너리형으로 변환
+    list_of_data = json.loads(source)
+
+    temp = list_of_data['main']['temp']
+    cloud = list_of_data['clouds']['all']
+
+    return jsonify({'temper': temp , 'cloud': cloud })
+
+
+@app.route('/food/recommend', methods=['GET'])
+def get_recofood():
+    temper_receive = float(request.args['temper_give'])
+    cloud_receive = float(request.args['cloud_give'])
+    result = recofood(temper_receive, cloud_receive)
+    print(result)
+
+    return jsonify({'result':result})
+
+def ranking(temper, cloud):
     foodlist = []
 
-    if weather <= 50:
+    if cloud <= 50:
         if temper >= 20:
             for i in sunny_hot:
                 foodlist.append(db.food.find_one({'name': i}))
@@ -79,28 +117,52 @@ def ranking(weather, temper):
 
     return result;
 
-@app.route('/food/location', methods=['GET'])
-def get_weather():
-    x_receive = request.args['x_give']
-    y_receive = request.args['y_give']
-    api = "ad941787e755149ec3b3f81c65223d85"
+def recofood(temper, cloud):
+    foodlist = []
 
-    lon = float(x_receive)
-    lat = float(y_receive)
+    if cloud == 0:
+        if temper >= 20:
+            recofood = random.sample(sunny_hot, 3)
+            for i in recofood:
+                foodlist.append(db.food.find_one({'name': i}))
+                data = sorted(foodlist, key=(lambda x: x['like']))[::-1][0:3]
+        elif temper >= 10:
+            recofood = random.sample(sunny_warm, 3)
+            for i in recofood:
+                foodlist.append(db.food.find_one({'name': i}))
+                data = sorted(foodlist, key=(lambda x: x['like']))[::-1][0:3]
+        else:
+            recofood = random.sample(sunny_cool, 3)
+            for i in recofood:
+                foodlist.append(db.food.find_one({'name': i}))
+                data = sorted(foodlist, key=(lambda x: x['like']))[::-1][0:3]
 
-    print(lat, lon)
-    units = "metric"
-    # api에서 가져온 json을 저장하는 source
-    source = urllib.request.urlopen(
-        'http://api.openweathermap.org/data/2.5/weather?lat=' + str(lat) + '&lon=' + str(
-            lon) + '&appid=' + api + '&units=' + units).read()
-    # json을 딕셔너리형으로 변환
-    list_of_data = json.loads(source)
+    else:
+        if temper >= 20:
+            recofood = random.sample(rain_hot, 3)
+            for i in recofood:
+                foodlist.append(db.food.find_one({'name': i}))
+                data = sorted(foodlist, key=(lambda x: x['like']))[::-1][0:3]
+        elif temper >= 10:
+            recofood = random.sample(rain_warm, 3)
+            for i in recofood:
+                foodlist.append(db.food.find_one({'name': i}))
+                data = sorted(foodlist, key=(lambda x: x['like']))[::-1][0:3]
+        else:
+            recofood = random.sample(rain_cool, 3)
+            for i in recofood:
+                foodlist.append(db.food.find_one({'name': i}))
+                data = sorted(foodlist, key=(lambda x: x['like']))[::-1][0:3]
 
-    temp = list_of_data['main']['temp']
-    cloud = list_of_data['clouds']['all']
-    print(temp, cloud)
-    return jsonify({'temper': temp , 'cloud': cloud })
+    result = []
+    for i in data:
+        result.append([i['name'], i['img'], i['like']])
+
+    return result
+
+
+
+
 
 
 if __name__ == '__main__':
