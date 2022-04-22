@@ -94,6 +94,67 @@
             color: #2199e8;
         }
     </style>
+    <script>
+       $(document).ready(function(){
+           showRanking();
+       })
+       function showRanking(){
+           $.ajax({
+               type: "GET",
+               url: "/food",
+               data:{},
+               success: function (response){
+                   ranking = response['ranking']
+                   console.log(ranking)
+               }
+           })
+       }
+
+       function search(){
+           let x
+           let y
+           let temper
+           let cloud
+           let inputValue = document.getElementById("searchid").value;
+           console.log("0000000"+inputValue)
+
+           $.ajax({
+               method: "GET",
+               url: "https://dapi.kakao.com/v2/local/search/address.json",
+               data: {query: inputValue},
+               async: false,
+               headers: {'Authorization': 'KakaoAK 90a49a1ce9311a6bc0ba1f2212670e5d'},
+               success: function (msg) {
+
+                   let address_name = msg.documents[0]['address_name']
+                   x = msg.documents[0]['x']
+                   y = msg.documents[0]['y']
+                   console.log(address_name, x, y)
+               }
+           })
+
+           $.ajax({
+               method: "GET",
+               url: "/food/location",
+               async: false,
+               data: {x_give: x, y_give: y},
+               success: function (response) {
+                   temper = response['temper']
+                   cloud = response['cloud']
+
+                   alert(temper)
+                   alert(cloud)
+               }
+           })
+
+
+       }
+
+
+
+
+
+    </script>
 
 </head>
 
@@ -104,16 +165,16 @@
         <div class="title">날씨에 맞는 음식 추천</div>
 
         <div class="search">
-            <nav class="navbar navbar-light">
+            <div class="navbar navbar-light">
                 <form class="form-inline">
-                    <input class="form-control mr-sm-2" type="search" placeholder="지역" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">검색</button>
+                    <input class="form-control mr-sm-2" id="searchid" type="search" placeholder="지역" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" onclick="search()" type="submit">검색</button>
                 </form>
-            </nav>
+            </div>
         </div>
 
         <div>
-            <button type="button" class="btn btn-outline-success likesort">좋아요 많은 순</button>
+            <button type="button"  class="btn btn-outline-success likesort">좋아요 많은 순</button>
 
             <div class="wetherinfo">
                 날씨: 흐림<br>
