@@ -191,7 +191,7 @@ doc = {'img':'https://recipe1.ezmember.co.kr/cache/recipe/2017/04/26/ddd495fd432
 db.food.insert_one(doc)
 
 doc = {'img':'http://www.chungjungone.com/knowhow/images/blog/ezr/ker76/1.jpg',
-       'name':'수재비',
+       'name':'수제비',
        'like': 0}
 db.food.insert_one(doc)
 
